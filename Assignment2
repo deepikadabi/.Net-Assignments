@@ -1,0 +1,251 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assignment2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Manager m = new Manager();
+            Manager m1 = new Manager("Yash", 3, 30000, "2nd level");
+           
+            Console.WriteLine(m.Name);
+            Console.WriteLine(m.DeptNo);
+            Console.WriteLine(m.Designation);
+            Console.WriteLine(m.Basic);
+            Console.WriteLine(m.CalcNetSalary());
+
+
+            Console.WriteLine(m1.Name);
+            Console.WriteLine(m1.DeptNo);
+            Console.WriteLine(m1.Designation);
+            Console.WriteLine(m1.Basic);
+            Console.WriteLine(m1.CalcNetSalary());
+
+            Console.WriteLine("--------------");
+
+            GeneralManager g = new GeneralManager();
+            GeneralManager g1 = new GeneralManager("Rupali", 4, 2000, "1 st level", "LCD");
+
+            Console.WriteLine(g.Name);
+            Console.WriteLine(g.DeptNo);
+            Console.WriteLine(g.Designation);
+            Console.WriteLine(g.Basic);
+            Console.WriteLine(g.CalcNetSalary());
+            Console.WriteLine(g.Perks);
+
+            Console.WriteLine(g1.Name);
+            Console.WriteLine(g1.DeptNo);
+            Console.WriteLine(g1.Designation);
+            Console.WriteLine(g1.Basic);
+            Console.WriteLine(g1.CalcNetSalary());
+            Console.WriteLine(g1.Perks);
+
+
+            Console.WriteLine("--------------");
+
+            CEO c = new CEO();
+            CEO c1 = new CEO("Rupali", 4, 2000);
+
+            Console.WriteLine(c.Name);
+            Console.WriteLine(c.DeptNo);
+            Console.WriteLine(c.Basic);
+            Console.WriteLine(c.CalcNetSalary());
+
+            Console.WriteLine(c1.Name);
+            Console.WriteLine(c1.DeptNo);
+            Console.WriteLine(c1.Basic);
+            Console.WriteLine(c1.CalcNetSalary());
+
+            Console.ReadLine();
+
+        }
+    }
+
+    public abstract class Employee
+    {
+        public string Name;
+        public int EmpNo;
+        public short DeptNo;
+        public decimal Basic;
+        public int calNetSalary;
+        public static int count =0;
+
+        public Employee()
+        {
+            count++;
+            this.EmpNo = count;
+            this.Name = "Deep";
+            this.DeptNo = 10;
+            this.Basic = 2000;
+            Console.WriteLine("Employee 0 para");
+        }
+
+        public Employee(string name, short deptno, decimal basic)
+        {
+            count++;
+            this.DeptNo = deptno;
+            this.Basic = basic;
+            this.Name = name;
+            Console.WriteLine("Employee 3 para");
+
+        }
+
+        public string EName
+        {
+            set
+            {
+                if (value == "")
+                    Console.WriteLine("Black Name not allow");
+                else
+                    Name = value;
+            }
+            get
+            {
+                return Name;
+            }
+        }
+
+        public short EDeptNo
+        {
+            set
+            {
+                if (value > 0)
+                    DeptNo = value;
+                else
+                    Console.WriteLine("should be greater than 0");
+
+            }
+            get
+            {
+                return DeptNo;
+            }
+        }
+
+        public abstract decimal EBasic
+        {
+            set;
+            get;
+        }
+
+        public abstract decimal CalcNetSalary();
+    }
+
+    public class Manager : Employee
+    {
+        public string Designation;
+        public Manager() : base()
+        {
+
+            Designation = "agent";
+            Console.WriteLine("Manager 0 para");
+
+        }
+
+        public Manager(string name, short deptno, decimal basic, string designation) : base(name, deptno, basic)
+        {
+
+            Designation = designation;
+            Console.WriteLine("Manager 4 para");
+
+        }
+
+        public override decimal EBasic 
+        { 
+            get
+            {
+                return Basic;
+            } 
+            set
+            {
+                if (value > 20000)
+                    Basic = value;
+                else
+                    Console.WriteLine("invalid");
+            } 
+        
+        }
+
+        public override decimal CalcNetSalary()
+        {
+            return (Basic - (15 * Basic / 100));
+        }
+
+    }
+
+    public class GeneralManager : Manager
+    {
+        public string Perks;
+
+        public GeneralManager()
+        {
+            Perks = "good";
+            Console.WriteLine("GeneralManager 0 para");
+
+        }
+
+        public GeneralManager(string name, short deptno, decimal basic, string designation, string perks) : base(name, deptno, basic, designation)
+        {
+            Perks = perks;
+            Console.WriteLine("GeneralManager 5 para");
+
+        }
+
+        public string GPerks
+        {
+            get
+            {
+                return Perks;
+            }
+            set
+            {
+                Perks = value;
+            }
+        }
+
+        public override decimal CalcNetSalary()
+        {
+            return (Basic - (10 * Basic / 100));
+        }
+    }
+
+
+    public class CEO : Employee
+    {
+        public CEO() : base()
+        {
+            Console.WriteLine("CEO 0 para");
+
+        }
+
+        public CEO(string name, short deptno, decimal basic): base(name, deptno, basic)
+        {
+            Console.WriteLine("CEO 4 para");
+
+        }
+
+        public override decimal EBasic {
+            get
+            {
+                return Basic;
+            }
+            set
+            {
+                if (value > 50000)
+                    Basic = value;
+                else
+                    Console.WriteLine("invalid");
+            }
+        }
+
+        public override sealed decimal CalcNetSalary()
+        {
+            return (Basic - (15 * Basic / 100));
+        }
+    }
+
+}
